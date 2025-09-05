@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>$P [ FRCA v$V ]</title>
+    <link rel="stylesheet" href="static/css/styles.css">
+    <script src="static/js/framework.js" defer></script>
+    <script src="static/js/ui.js" defer></script>
+    <script src="static/js/main.js" defer></script>
+    <script src="static/js/libs/jszip.min.js"></script>
+    <script src="static/js/libs/localforage.min.js"></script>
+    <script src="static/js/export.js" defer></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100..900&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div id="top-layer" class="overlay-layer">
+    </div>
+    <div id="topbar" class="tinted container topbar">
+        <select class="topbar_button no-focus-outline" id="topbar_file" oninput="check_file()">
+            <option disabled selected hidden>File</option>
+            <option>Home</option>
+            <option>Save</option>
+            <option>Export</option>
+            <option>Exit</option>
+        </select>
+        <!-- <select class="topbar_button no-focus-outline" id="topbar_edit" oninput="check_edit()">
+            <option disabled selected hidden>Edit</option>
+            <option>Undo</option>
+            <option>Redo</option>
+        </select> -->
+        <select class="topbar_button no-focus-outline" id="topbar_missions" oninput="check_missions()">
+            <option disabled selected hidden>Missions</option>
+        </select>
+        <select class="topbar_button no-focus-outline" id="topbar_locations" oninput="check_locations()">
+            <option disabled selected hidden>Locations</option>
+        </select>
+        <!-- <select class="topbar_button no-focus-outline" id="topbar_config" oninput="check_config()">
+            <option disabled selected hidden>Config</option>
+            <option>Backup</option>
+            <option>Reset</option>
+            <option>Settings</option>
+        </select> -->
+    </div>
+    <p class="placeholder_medium"></p>
+    <div id="campaign_meta" class="container tinted centered">
+        <h3>Metadata</h3>
+        <input id="campaign_name" placeholder="Campaign name">
+        <br>
+        <input id="campaign_id" placeholder="Campaign ID" onblur="update_namespace()">
+        <br>
+        <h4>Text that shows on campaign completion</h4>
+        <textarea id="campaign_finish_text" placeholder="Campaign finish text"></textarea>
+    </div>
+    <p id="home_spaceholder" class="placeholder_tiny"></p>
+    <div class="container tinted centered organizer" id="level_selector">
+        <h3>Missions</h3>
+    </div>
+    <p id="home_spaceholder_2" class="placeholder_tiny"></p>
+    <div class="container tinted centered organizer" id="location_selector">
+        <h3>Locations</h3>
+    </div>
+    <div id="mission_editor" class="container tinted centered">
+        <h1 id="mission_name">Mission name</h1>
+        <p class="placeholder_tiny"></p>
+        <p>Mission completion text</p>
+        <textarea id="mission_finish_text" placeholder="Enter the text that shows on mission completion"></textarea>
+        <p>Mission start location</p>
+        <select id="mission_start_location" class="location_selector"></select>
+        <p class="placeholder_tiny"></p>
+        <h2>Mission objectives</h2>
+        <div id="objective_containers"></div>
+
+        <div class="centered tinted container" style="width: 78vw;">
+            <select id="objective_type" class="transparent wide no-focus-outline">
+                <option disabled selected hidden>Select an objective type</option>
+                <option>Briefing</option>
+                <option>Survive</option>
+                <option>Reach waypoint</option>
+                <option>Destroy</option>
+                <option>Hyperspace jump</option>
+            </select>
+            <button id="add_objective" onclick="add_objective()" class="transparent"> + Add</button>
+        </div>
+    </div>
+    <div id="location_editor" class="container tinted centered">
+        <h1 id="location_name">Location name</h1>
+        <p>Edit the location, upload background, scene and scripts/AI code</p>
+        <h2>Environment</h2>
+        <h3>Background</h3>
+        <p>Select your skybox picture (.png)</p>
+        <button id="location_editor_background_button" onclick="upload_background()">[ Select ]</button>
+        <p>The current skybox:</p>
+        <img src="" class="thumb" id="location_editor_background_preview">
+        <h3>Scene</h3>
+        <p>Select your main scene, containing nodes, models, etc.</p><p>Make sure that it doesn't use any external resources, so it can be loaded correctly. (.tscn)</p>
+        <button id="location_editor_scene_button" onclick="upload_scene()">[ Select ]</button>
+        <p id="location_editor_scene_name">No scene uploaded</p>
+        <p class="placeholder_tiny"></p>
+        <h3>Additional files</h3>
+        <p>Select additional files, like models, textures, scripts or text files.</p>
+        <button id="location_editor_additional_button" onclick="upload_additional()">[ + Add ]</button>
+        <p class="placeholder_tiny"></p>
+        <div id="location_editor_additional_file_list" class="container centered"></div>
+        
+        <p class="placeholder_tiny"></p>
+    </div>
+    <div id="export" class="container tinted centered" style="display: none;">
+        <h1>Export campaign</h1>
+        <p>This will export the campaign into a .zip mod file for Fractured reach.</p>
+        <h2>Select levels to export</h2>
+        <div class="container centered left" id="export_level_filter" style="width: 30vw !important;"></div>
+        <p class="placeholder_small"></p>
+        <strong class="warn_fg">Before exporting, make sure that you have listed all contributors and copyright owners in your credits.txt file (see campaign metadata)</strong>
+        <p class="placeholder_small"></p>
+        <button onclick="export_campaign()">Export campaign (.zip)</button>
+    </div>
+    <p class="placeholder_medium"></p>
+</body>
+
+</html>

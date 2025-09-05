@@ -1,0 +1,23 @@
+{
+    "Ashwing": {
+        "name": "Ashwing",
+        "namespace": "official_campaign",
+        "finish": "Pilot of the Ashwing. You have done great.\nYour services will not be forgotten.\nMay you rest in peace.\n\n=== Congratulations! ===\nYou've completed the main campaign.\nWe have granted you access to the manual level selector.\n\nHello, this is sossinay, the developer of this game.\nIf you enjoyed playing, feel free to leave a comment\non itch.io and play some of my other games!\nYou can find me here:\nsossinaydev.itch.io\nsossinaydev.github.io",
+        "editor_version": "0.1a",
+        "levels": [
+            {
+                "name": "patrol_delta-007",
+                "locations": {},
+                "fail_triggers": [],
+                "objectives": [
+                    {
+                        "type": "briefing",
+                        "title": "Message from command",
+                        "text": "This is command. We've tracked weird electromagnetic interference in secor Delta-7. Please investigate.\n***\nThis is a recon mission, do only engage in self-defense. Try to not be noticed.\n***\nReport your findings to the communication beacon in sector Foxtrot-6.\n***\nThat's all.\nGood luck.\nCommand out"
+                    }
+                ],
+                "finish": {}
+            }
+        ]
+    }
+}
