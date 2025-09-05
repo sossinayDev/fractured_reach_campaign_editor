@@ -59,7 +59,7 @@ function addFolderToZip(path) {
 async function exportZip() {
     if (!currentZip) throw new Error("No zip created yet");
     return await currentZip.generateAsync({ type: "blob" });
-  }
+}
 
 
 // MAIN ====================================================
@@ -93,11 +93,38 @@ async function export_campaign() {
     createNewZip()
 
     let i = 0
-    for (level of projects[currently_editing].levels){
+    for (level of projects[currently_editing].levels) {
         // let level = projects[currently_editing].levels[level_key]
-        if ($(`#export_level_check_${i}`).checked){
+        if ($(`#export_level_check_${i}`).checked) {
+            let level_data = projects[currently_editing].levels[i]
             addFolderToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}`)
             addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/mission.json`, await generate_mission_json(i))
+
+            for (loc in level_data.locations) {
+                let val = level_data.locations[loc]
+
+                let loc_i = 0
+                let i = 0
+                projects[currently_editing].locations.forEach(loc => {
+                    if (loc.name == val) {
+                        loc_i = i
+                    }
+                    i++
+                });
+
+                let modified_file_name = `loc_${loc_i}_${(await loadFile(`${loc_i}_scene`)).name}`
+
+                addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, await loadFile(`${loc_i}_scene`))
+            }
+
+            let all_files = await listFiles()
+            for (const file_key of all_files) {
+                const file = await loadFile(file_key.key)
+                if (file_key.key.startsWith(`${i}_additional_`)) {
+                    addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${file.name}`, file)
+                }
+            }
+
         }
         i++
     };
@@ -105,7 +132,7 @@ async function export_campaign() {
 }
 
 
-async function generate_mission_json(level_id){
+async function generate_mission_json(level_id) {
     let level_data = projects[currently_editing].levels[level_id]
 
     let json_data = {
@@ -119,18 +146,18 @@ async function generate_mission_json(level_id){
 
     for (loc in level_data.locations) {
         let val = level_data.locations[loc]
-        
+
         let loc_i = 0
         let i = 0
         projects[currently_editing].locations.forEach(loc => {
-            if (loc.name == val){
+            if (loc.name == val) {
                 loc_i = i
             }
             i++
         });
 
-        let modified_file_name = `lvl_${level_id}_${(await loadFile(`${loc_i}_scene`)).name}`
-        
+        let modified_file_name = `lvl_${loc_i}_${(await loadFile(`${loc_i}_scene`)).name}`
+
         json_data.locations[loc] = {
             "name": val,
             "file": modified_file_name
@@ -140,7 +167,7 @@ async function generate_mission_json(level_id){
     level_data.objectives.forEach(obj => {
         let altered_data = obj
         altered_data.display = "waypoint"
-        if (obj.type == "briefing"){
+        if (obj.type == "briefing") {
             let d = []
             let splits = obj.text.split("***")
             splits.forEach(split => {
@@ -152,14 +179,14 @@ async function generate_mission_json(level_id){
                     "face": "clone_trooper"
                 })
             });
-            altered_data.display = d            
+            altered_data.display = d
         }
         else if (obj.type == "hyperspace_jump") {
-            if (obj.new_location == json_data.locations.start.name){
+            if (obj.new_location == json_data.locations.start.name) {
                 obj.new_location = "start"
             }
         }
-        
+
         json_data.objectives.push(altered_data)
     });
 
@@ -227,7 +254,7 @@ async function upload_additional() {
     })
 }
 
-async function remove_additional_file (file_key) {
+async function remove_additional_file(file_key) {
     deleteFile(file_key)
     await reload_location_files()
 }
