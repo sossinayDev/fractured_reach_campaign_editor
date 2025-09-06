@@ -113,8 +113,10 @@ async function export_campaign() {
                 });
 
                 let modified_file_name = `loc_${loc_i}_${(await loadFile(`${loc_i}_scene`)).name}`
-
-                addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, await loadFile(`${loc_i}_scene`))
+                let modified_bg_name = `loc_${loc}_background.png`
+                
+                await addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_bg_name}`, await loadFile(`${loc_i}_background`))
+                await addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, await loadFile(`${loc_i}_scene`))
             }
 
             let all_files = await listFiles()
@@ -128,9 +130,26 @@ async function export_campaign() {
         }
         i++
     };
+
+    addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/campaign.json`, generate_campaign_json())
+
     download_file(await exportZip(), `${projects[currently_editing].namespace}.zip`)
 }
 
+function generate_campaign_json(){
+    let data = {
+        "name": projects[currently_editing].name,
+        "levels": [],
+        "finish": {
+            "text": projects[currently_editing].finish
+        }
+    }
+    projects[currently_editing].levels.forEach(level => {
+        data.levels.push(level.name)
+    });
+
+    return JSON.stringify(data)
+}
 
 async function generate_mission_json(level_id) {
     let level_data = projects[currently_editing].levels[level_id]

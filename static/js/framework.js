@@ -349,5 +349,6 @@ function new_level(name) {
 
 function exit() {
     localStorage.removeItem("fractured_reach_campaign_editor_current_project")
+    localStorage.removeItem("fractured_reach_campaign_editor_current_location")
     window.location.href = "index.html"
 }

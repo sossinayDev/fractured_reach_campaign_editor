@@ -22,20 +22,20 @@ function check_file() {
     let action = $("#topbar_file").value.toString().toLowerCase()
     $("#topbar_file").value = "File"
     $("#topbar_file").blur();
-    if (action == "save"){
+    if (action == "save") {
         store_data()
     }
-    else if (action == "exit"){
+    else if (action == "exit") {
         save_project()
         exit()
     }
-    else if (action == "home"){
+    else if (action == "home") {
         current_level = null
         current_location = null
         store_data()
         window.location.reload()
     }
-    else if (action == "export"){
+    else if (action == "export") {
         $("#campaign_meta").style.display = "none"
         $("#home_spaceholder").style.display = "none"
         $("#level_selector").style.display = "none"
@@ -72,7 +72,7 @@ function check_locations() {
     let id = 0
     let i = 0
     projects[currently_editing].locations.forEach(location => {
-        if (location.name == name){
+        if (location.name == name) {
             id = i
         }
         i++
@@ -80,6 +80,38 @@ function check_locations() {
     $("#topbar_locations").value = "Locations"
     $("#topbar_locations").blur();
     edit_location(id)
+}
+
+function check_about() {
+    let action = $("#topbar_about").value.toString().toLowerCase()
+    if (action == "about") {
+        hide_all()
+        $("#about").style.display = "block"
+    }
+    else if (action == "help") {
+        hide_all()
+        $("#help").style.display = "block"
+    }
+    else if (action == "faq") {
+        hide_all()
+        $("#faq").style.display = "block"
+    }
+    $("#topbar_about").value = "About"
+    $("#topbar_about").blur();
+}
+
+function hide_all() {
+    $("#campaign_meta").style.display = "none"
+    $("#home_spaceholder").style.display = "none"
+    $("#level_selector").style.display = "none"
+    $("#location_selector").style.display = "none"
+    $("#home_spaceholder_2").style.display = "none"
+    $("#mission_editor").style.display = "none"
+    $("#location_editor").style.display = "none"
+    $("#export").style.display = "none"
+    $("#help").style.display = "none"
+    $("#about").style.display = "none"
+    $("#faq").style.display = "none"
 }
 
 function update_namespace() {
@@ -114,7 +146,7 @@ function prepare_export() {
     levels.forEach(level => {
         console.log(level.name)
         let val = "checked"
-        if (level.name.toLowerCase().includes("debug")){
+        if (level.name.toLowerCase().includes("debug")) {
             console.log("Marked as debug")
             val = ""
         }

@@ -45,6 +45,12 @@
             <option>Reset</option>
             <option>Settings</option>
         </select> -->
+        <select class="topbar_button no-focus-outline" id="topbar_about" oninput="check_about()">
+            <option disabled selected hidden>About</option>
+            <option>About</option>
+            <option>Help</option>
+            <option>FAQ</option>
+        </select>
     </div>
     <p class="placeholder_medium"></p>
     <div id="campaign_meta" class="container tinted centered">
@@ -115,9 +121,38 @@
         <h2>Select levels to export</h2>
         <div class="container centered left" id="export_level_filter" style="width: 30vw !important;"></div>
         <p class="placeholder_small"></p>
-        <strong class="warn_fg">Before exporting, make sure that you have listed all contributors and copyright owners in your credits.txt file (see campaign metadata)</strong>
+        <strong class="warn_fg">Before exporting, make sure that you have listed all contributors and copyright owners in your campaign finish text.</strong>
         <p class="placeholder_small"></p>
         <button onclick="export_campaign()">Export campaign (.zip)</button>
+    </div>
+    <div id="about" class="container tinted centered" style="display: none;">
+        <h1>About</h1>
+        <p>Hello! I'm sossinay, a swiss game developer and programmer. I wrote this program to be more efficient at creating campaigns for my upcoming game "Fractured Reach".</p>
+        <p>Contact me:</p>
+        <a href="mailto://sossinaydev.gmail.com">sossinaydev.gmail.com</a>
+        <p class="placeholder_tiny">
+        <p>Find me online:</p>
+        <a href="https://sossinaydev.github.io">Website</a><br>
+        <a href="https://sossinaydev.itch.io">Itch.io</a>
+    </div>
+    <div id="faq" class="container tinted centered" style="display: none;">
+        <h1>FAQ</h1>
+    </div>
+    <div id="help" class="container tinted centered" style="display: none;">
+        <h1>Help</h1>
+        <h2>How to create a level?</h2>
+        <p>To create a level, go to the campaign home and click on "+ Create" below "Missions". Then give it a name and click on it to edit it.</p>
+        <h2>How do I create a location?</h2>
+        <p>For that you'll have to download the <a href="https://godotengine.org/">Godot engine</a>.</p>
+        <p>Then, create a new project in compatibility mode. Open it.</p>
+        <p>To start, create a new 3D scene. Name it something unique like "level_1"<br>Now you can start adding models and other objects to it.<br>Make sure to not create any folders below your scene.tscn, else you're going to have a hard time creating a campaign here.</p>
+        <strong>How to do it:</strong><br>
+        <img src="static/img/help/file_tree_ok.png"><br>
+        <strong>How NOT to do it:</strong><br>
+        <img src="static/img/help/file_tree_bad.png">
+        <p>This editor will automatically prepare your scenes to allow Fractured Reach to edit them with correct paths.</p>
+        <p>Once you have finished adding every object and script, right click on your scene in the file browser and click "Show in File Manager".<br>Then, copy the path in your explorer. Return to your location on this editor, and upload your scene. Make sure to also upload any other file used by the scene (eg. ai_script.gd or space_station.obj) below "Additional files".</p>
+        <p>Finally, your location needs a skybox. You can pretty much take any image for it, but I recommend deep-folds <a href="https://deep-fold.itch.io/space-background-generator">Space background generator</a>. Upload it to background.</p>
     </div>
     <p class="placeholder_medium"></p>
 </body>
