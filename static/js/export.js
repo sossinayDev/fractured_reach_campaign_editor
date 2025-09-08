@@ -97,8 +97,8 @@ async function export_campaign() {
         // let level = projects[currently_editing].levels[level_key]
         if ($(`#export_level_check_${i}`).checked) {
             let level_data = projects[currently_editing].levels[i]
-            addFolderToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}`)
-            addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/mission.json`, await generate_mission_json(i))
+            addFolderToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}`)
+            addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/mission.json`, await generate_mission_json(i))
 
             for (loc in level_data.locations) {
                 let val = level_data.locations[loc]
@@ -115,15 +115,15 @@ async function export_campaign() {
                 let modified_file_name = `loc_${loc_i}_${(await loadFile(`${loc_i}_scene`)).name}`
                 let modified_bg_name = `loc_${loc}_background.png`
                 
-                await addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_bg_name}`, await loadFile(`${loc_i}_background`))
-                await addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, await loadFile(`${loc_i}_scene`))
+                await addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_bg_name}`, await loadFile(`${loc_i}_background`))
+                await addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, await loadFile(`${loc_i}_scene`))
             }
 
             let all_files = await listFiles()
             for (const file_key of all_files) {
                 const file = await loadFile(file_key.key)
                 if (file_key.key.startsWith(`${i}_additional_`)) {
-                    addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${file.name}`, file)
+                    addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${file.name}`, file)
                 }
             }
 
@@ -131,7 +131,7 @@ async function export_campaign() {
         i++
     };
 
-    addFileToZip(`${projects[currently_editing].namespace}/campaigns/${projects[currently_editing].namespace}/campaign.json`, generate_campaign_json())
+    addFileToZip(`campaigns/${projects[currently_editing].namespace}/campaign.json`, generate_campaign_json())
 
     download_file(await exportZip(), `${projects[currently_editing].namespace}.zip`)
 }
