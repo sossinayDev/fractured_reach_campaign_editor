@@ -116,7 +116,27 @@ async function export_campaign() {
                 let modified_bg_name = `loc_${loc}_background.png`
                 
                 await addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_bg_name}`, await loadFile(`${loc_i}_background`))
-                await addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, await loadFile(`${loc_i}_scene`))
+                var reader = new FileReader();
+                let text = "";
+
+                reader.onload = function() {
+                    text = reader.result;
+                    let path_prefix = ""
+                    let index = text.indexOf("res://")
+                    let char = text.substring(index,1)
+
+                    while (char != '"' && index < text.length-1){
+                        path_prefix += char
+                        index += 1
+                        char = text.substring(index,1)
+                    }
+                    
+                    new_text = text.replaceAll(path_prefix,`{LEVEL_PATH}`)
+                    console.log(new_text)
+                    addFileToZip(`campaigns/${projects[currently_editing].namespace}/level_data/${level.name}/${modified_file_name}`, new_text)
+
+                }
+                await reader.readAsText(await loadFile(`${loc_i}_scene`));
             }
 
             let all_files = await listFiles()
